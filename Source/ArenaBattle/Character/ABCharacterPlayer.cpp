@@ -49,7 +49,7 @@ AABCharacterPlayer::AABCharacterPlayer()
 
 	//메시 애셋 지정.
 	static ConstructorHelpers::FObjectFinder<USkeletalMesh>CharacterMesh(
-		TEXT("/Game/Characters/Mannequins/Meshes/SKM_Manny_Simple.SKM_Manny_Simple")
+		TEXT("/Game/InfinityBladeWarriors/Character/CompleteCharacters/SK_CharM_Cardboard.SK_CharM_Cardboard")
 	);
 
 	if (CharacterMesh.Succeeded())
@@ -59,7 +59,7 @@ AABCharacterPlayer::AABCharacterPlayer()
 	
 	//애님 블루프린트 클래스 검색 및 설정
 	static ConstructorHelpers::FClassFinder<UAnimInstance> CharacterAnim(
-		TEXT("/Game/Characters/Mannequins/Anims/Unarmed/ABP_Unarmed.ABP_Unarmed_C")
+		TEXT("/Game/ArenaBattle/Animation/ABP_ABCharacter.ABP_ABCharacter_C")
 	);
 
 	if (CharacterAnim.Succeeded())
