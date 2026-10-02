@@ -27,7 +27,7 @@ AABCharacterPlayer::AABCharacterPlayer()
 	SpringArm->SetupAttachment(RootComponent);
 	SpringArm->TargetArmLength = 600.0f;
 
-	//컨트롤러 회전을 사용하도록 설정(기본 값은 폰의 횐 속성 사용)
+	//컨트롤러 회전을 사용하도록 설정(기본 값은 폰의 회전 속성 사용)
 	SpringArm->bUsePawnControlRotation = true;
 
 	//카메라 컴포넌트 생성
@@ -113,7 +113,8 @@ void AABCharacterPlayer::BeginPlay()
 
 	//사용할 입력 매핑 컨텍스트 설정.
 	//플레이어 컨트롤러 가져오기.
-	APlayerController* PlayerController = Cast<APlayerController>(GetController());
+	APlayerController* PlayerController 
+		= Cast<APlayerController>(GetController());
 	if (IsValid(PlayerController))
 	{
 		//향상된 입력 서브 시스템 가져오기
@@ -136,7 +137,8 @@ void AABCharacterPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 
 	//바인딩 - 입력 액션을 통해서 입력이 전달될 때 실행함 함수 연동.
 	//향상된 입력 컴포넌트로 변환.
-	UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent> (PlayerInputComponent);
+	UEnhancedInputComponent* EnhancedInputComponent 
+		= Cast<UEnhancedInputComponent> (PlayerInputComponent);
 
 	if (EnhancedInputComponent)
 	{

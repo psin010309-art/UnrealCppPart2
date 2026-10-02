@@ -10,6 +10,4 @@ void AABPlayerController::BeginPlay()
 	//입력 설정.
 	FInputModeGameOnly GameOnlyInputMode;
 	SetInputMode(GameOnlyInputMode);
-
-
 }
