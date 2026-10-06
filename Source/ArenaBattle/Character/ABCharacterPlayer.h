@@ -35,7 +35,6 @@ protected:
 	void QuaterMove(const FInputActionValue& Value);
 
 	//설정된 컨트롤에 따라서 입력 매핑 컨텍스트 및 관련 설정을 처리하는 함수
-	
 	void SetCharacterControl(
 		ECharacterControlType NewCharacterControlType
 	);
@@ -55,6 +54,10 @@ protected:
 
 	//V키에 대응해서 실행할 함수.
 	void ChangeCharacterControl();
+
+	//공격함수
+	//공격 입력에 대응되어 실행될 공격함수.
+	void Attack();
 
 	//입력 관련 설정.
 protected:
@@ -77,6 +80,10 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, Category = Input, BlueprintReadOnly)
 	TObjectPtr<UInputAction> ChangeControlAction;
+
+	//공격 입력 액션
+	UPROPERTY(VisibleAnywhere, Category = Input, BlueprintReadOnly)
+	TObjectPtr<UInputAction> AttackAction;
 
 	//현재 사용 중인 컨트롤 타입을 추적(저장)하는 변수.
 	UPROPERTY(VisibleAnywhere, Category = CharacterControl)

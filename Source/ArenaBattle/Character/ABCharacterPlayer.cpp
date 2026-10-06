@@ -118,6 +118,16 @@ AABCharacterPlayer::AABCharacterPlayer()
 		ChangeControlAction = ChangeControlActionRef.Object;
 	}
 
+	static ConstructorHelpers::FObjectFinder<UInputAction>
+		AttackActionRef(
+			TEXT("/Game/ArenaBattle/Input/Actions/IA_Attack.IA_Attack")
+		);
+
+	if (AttackActionRef.Succeeded())
+	{
+		AttackAction = AttackActionRef.Object;
+	}
+
 	//기본 컨트롤 설정.
 	CurrentCharacterControlType = ECharacterControlType::Shoulder;
 }
@@ -186,6 +196,14 @@ void AABCharacterPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 			ETriggerEvent::Started,
 			this,
 			&AABCharacterPlayer::ChangeCharacterControl
+		);
+
+		//공격 입력 액션 처리
+		EnhancedInputComponent->BindAction(
+			AttackAction,
+			ETriggerEvent::Triggered,
+			this,
+			&AABCharacterPlayer::Attack
 		);
 	}
 }
@@ -299,10 +317,15 @@ void AABCharacterPlayer::SetCharacterControlData(const UABCharacterControlData* 
 {
 	Super::SetCharacterControlData(InCharacterControlData);
 
+	//카메라와 캐릭터 사이의 거리
 	SpringArm->TargetArmLength = InCharacterControlData->TargetArmLength;
+	//카메라 기본 기울기, 각도
 	SpringArm->SetRelativeRotation(InCharacterControlData->RelativeRotation);
+	//카메라가 벽에 걸렸을 때 캐릭터 쪽으로 당겨오는 충돌 회피기능 켜기/끄기
 	SpringArm->bDoCollisionTest = InCharacterControlData->bDoCollisionTest;
+	//마우스 조작에 따라 스프링암도 회전할지 여부
 	SpringArm->bUsePawnControlRotation = InCharacterControlData->bUsePawnControllerRotation;
+	//캐릭터의 회전값을 스프링암이 상속받을지 여부
 	SpringArm->bInheritPitch = InCharacterControlData->bInheritPitch;
 	SpringArm->bInheritYaw = InCharacterControlData->bInheritYaw;
 	SpringArm->bInheritRoll = InCharacterControlData->bInheritRoll;
@@ -320,4 +343,29 @@ void AABCharacterPlayer::ChangeCharacterControl()
 	{
 		SetCharacterControl(ECharacterControlType::Shoulder);
 	}
+}
+
+void AABCharacterPlayer::Attack()
+{
+	//몽타주 재생
+	//몽타주 재생을 위해 애님 인스터스 가져오기.
+	UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
+	if (AnimInstance)
+	{
+		//몽타주 재생 속도
+		const float AttackSpeedRate = 1.0f;
+
+		//몽타주 재생
+		AnimInstance->Montage_Play(ComboAttackMontage, AttackSpeedRate);
+
+		//몽타주 종료 이벤트에 등록.
+		FOnMontageEnded OnMontageEnded;
+		OnMontageEnded.BindUObject(this, &AABCharacterPlayer::ComboActionEnded);
+
+		AnimInstance->Montage_SetEndDelegate(OnMontageEnded, ComboAttackMontage);
+
+		//공격 모션 중에는 이동하지 않도록 설정
+		GetCharacterMovement()->SetMovementMode(EMovementMode::MOVE_None);
+	}
+
 }
