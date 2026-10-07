@@ -34,6 +34,6 @@ void UABHpBarWidget::NativeConstruct()
 
 	//이름 값을 사용해 위젯 참조 가져오기.
 	//UProgress타입이 아닌 UserWidget타입이었기 때문
-	HpProgressBar = Cast<UProgressBar>(GetWidgetFromName(TEXT("PbHpBar")));
+	HpProgressBar = Cast<UProgressBar>(GetWidgetFromName(TEXT("PB_HpBar")));
 	ensure(HpProgressBar);
 }

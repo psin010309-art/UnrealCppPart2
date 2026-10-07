@@ -108,5 +108,5 @@ protected:
 	//위젯 컴포넌트
 	//컴포넌트 추가 (소유자: 액터) -> has a로 다른 객체를 소유(컴포지션 구조)
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Widget, meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<class UWidgetComponent> HpBar;
+	TObjectPtr<class UABWidgetComponent> HpBar;
 };
