@@ -98,4 +98,15 @@ protected:
 
 	//죽은 뒤에 약간의 시간을 대기(딜레이)한 후 삭제.
 	float DeadEventDelayTime = 5.0f;
+
+protected:
+	//스탯 컴포넌트
+	//생명주기 관리는 맡기지 않지만 속성 변경은 맡기는 속성:AllowPrivateAccess.
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Stat, meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<class UABCharacterStatComponent> Stat;
+
+	//위젯 컴포넌트
+	//컴포넌트 추가 (소유자: 액터) -> has a로 다른 객체를 소유(컴포지션 구조)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Widget, meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<class UWidgetComponent> HpBar;
 };
