@@ -3,6 +3,7 @@
 
 #include "UI/ABHpBarWidget.h"
 #include <Components/ProgressBar.h>
+#include <Inteface/ABCharacterWidgetInterface.h>
 
 UABHpBarWidget::UABHpBarWidget(const FObjectInitializer& ObjectInitializer)
 	:Super(ObjectInitializer)
@@ -12,7 +13,7 @@ UABHpBarWidget::UABHpBarWidget(const FObjectInitializer& ObjectInitializer)
 	MaxHp = -1.0f;
 }
 
-void UABHpBarWidget::UpdatHpBar(float NewCurrentHp)
+void UABHpBarWidget::UpdateHpBar(float NewCurrentHp)
 {
 	//검증.
 	ensure(MaxHp > 0.0f);
@@ -36,4 +37,12 @@ void UABHpBarWidget::NativeConstruct()
 	//UProgress타입이 아닌 UserWidget타입이었기 때문
 	HpProgressBar = Cast<UProgressBar>(GetWidgetFromName(TEXT("PB_HpBar")));
 	ensure(HpProgressBar);
+
+	//인터페이스를 통해서 이 위젯의 함수에 Stat 컴포넌트의 델리게이트 등록 요청 및 초기 값 설정
+	IABCharacterWidgetInterface* CharacterWidgetInterface 
+		= Cast<IABCharacterWidgetInterface>(OwningActor);
+	if (CharacterWidgetInterface)
+	{
+		CharacterWidgetInterface->SetupCharacterWidget(this);
+	}
 }

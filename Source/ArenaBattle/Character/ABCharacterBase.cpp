@@ -11,6 +11,7 @@
 
 #include <CharacterStat/ABCharacterStatComponent.h>
 #include <UI/ABWidgetComponent.h>
+#include <UI/ABHpBarWidget.h>
 
 // Sets default values
 AABCharacterBase::AABCharacterBase()
@@ -115,6 +116,14 @@ AABCharacterBase::AABCharacterBase()
 	//HpBar->SetWidgetClass()
 }
 
+void AABCharacterBase::PostInitializeComponents()
+{
+	Super::PostInitializeComponents();
+
+	//델리게이트에 함수 등록.
+	Stat->OnHpZero.AddUObject(this, &AABCharacterBase::SetDead);
+}
+
 float AABCharacterBase::TakeDamage(
 	float DamageAmount, 
 	FDamageEvent const& DamageEvent, 
@@ -129,9 +138,13 @@ float AABCharacterBase::TakeDamage(
 	);
 
 	//대미지를 받으면 죽음 처리 함수 호출.
-	SetDead();
+	//SetDead();
+	
+	//전달 받은 대미지를 스탯 컴포넌트에 전달
+	//대미지 적용.
+	Stat->ApplyDamage(DamageAmount);
 
-	return 0.0f;
+	return DamageAmount;
 }
 
 void AABCharacterBase::SetDead()
@@ -174,6 +187,24 @@ void AABCharacterBase::SetCharacterControlData(
 		= InCharacterControlData->bUseOrientToMovement;
 	GetCharacterMovement()->RotationRate
 		= InCharacterControlData->RotationRate;
+}
+
+void AABCharacterBase::SetupCharacterWidget(UABUserWidget* InUserWidget)
+{
+	//HpBar 위젯에 필요한 데이터 설정 및 델리게이트 등록 처리
+	UABHpBarWidget* HpBarWidget = Cast<UABHpBarWidget>(InUserWidget);
+	if (HpBarWidget)
+	{
+		//데이터 설정.
+		HpBarWidget->SetMaxHp(Stat->GetMaxHp());
+		HpBarWidget->UpdateHpBar(Stat->GetCurrentHp());
+
+		//델리게이트 등록.
+		Stat->OnHpChanged.AddUObject(
+			HpBarWidget,
+			&UABHpBarWidget::UpdateHpBar
+		);
+	}
 }
 
 void AABCharacterBase::ProcessComboCommand()

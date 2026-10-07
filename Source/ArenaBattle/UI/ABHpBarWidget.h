@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
@@ -24,7 +24,7 @@ public:
 
 	//HpBar에 게이지를 설정하기 위한 함수.
 	//바인딩하고 구독
-	void UpdatHpBar(float NewCurrentHp);
+	void UpdateHpBar(float NewCurrentHp);
 
 protected:
 	//UMG가 초기화될 때 호출되는 함수.
