@@ -18,7 +18,7 @@ public:
 	UABAnimInstance();
 
 protected:
-	//애니메이션 최가화할 때 호출되는 함수.
+	//애니메이션 초기화할 때 호출되는 함수.
 	virtual void NativeInitializeAnimation() override;
 
 	//애니메이션 업데이트할 때 (프레임마다) 호출되는 함수.
