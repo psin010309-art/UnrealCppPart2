@@ -17,5 +17,6 @@ class ARENABATTLE_API UABWeaponItemData : public UABItemData
 public:
 	//무기 매시 설정 가능하도록
 	UPROPERTY(EditAnyWhere, Category = Weapon)
-	TObjectPtr<USkeletalMesh> WeaponMesh;
+	//TObjectPtr<class USkeletalMesh> WeaponMesh;
+	TSoftObjectPtr<class USkeletalMesh> WeaponMesh;
 };

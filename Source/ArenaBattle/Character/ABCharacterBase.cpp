@@ -187,9 +187,19 @@ void AABCharacterBase::EquipWeapon(UABItemData* InItemData)
 	//수집한 아이템으로부터 무기 스켈레탈 메시 애셋을 불러와 설정.
 	UABWeaponItemData* WeaponItemData 
 		= Cast<UABWeaponItemData>(InItemData);
+
 	if (WeaponItemData)
 	{
-		Weapon->SetSkeletalMesh(WeaponItemData->WeaponMesh);
+		//무기 메시가 로딩되기 전이라면 애셋 로드.
+		//IsPending으로 매시가 있는지
+		if (WeaponItemData->WeaponMesh.IsPending())
+		{
+			//확실하게 로드하기 위해 동기 방식으로 로드.
+			WeaponItemData->WeaponMesh.LoadSynchronous();
+		}
+
+		//Weapon->SetSkeletalMesh(WeaponItemData->WeaponMesh);
+		Weapon->SetSkeletalMesh(WeaponItemData->WeaponMesh.Get());
 	}
 }
 

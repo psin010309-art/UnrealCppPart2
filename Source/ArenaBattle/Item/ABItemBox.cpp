@@ -73,7 +73,7 @@ void AABItemBox::OnOverlapBegin(
 	const FHitResult& SweepResult
 )
 {
-	//유효성 검사
+	//유효성 검사 -> 꽝처리
 	if (!Item)
 	{
 		Destroy();
