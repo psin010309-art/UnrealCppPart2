@@ -210,11 +210,15 @@ void AABStageGimmick::OnGateTriggerBeginOverlap(
 	if (!Result)
 	{
 		//스테이지 액터 생성
-		AABStageGimmick* NewGimmick 
-			= GetWorld()->SpawnActor<AABStageGimmick>(NewLocation, FRotator::ZeroRotator);
+		FTransform NewTransform(NewLocation);
+		AABStageGimmick* NewGimmick
+			= GetWorld()->SpawnActorDeferred<AABStageGimmick>(AABStageGimmick::StaticClass(), NewTransform);
 
 		//스테이지 레벨 설정.
 		NewGimmick->SetStageNum(CurrentStageNum + 1);
+
+		//생성 완료 처리.
+		NewGimmick->FinishSpawning(NewTransform);
 	}
 
 	//스테이지 액터 생성
@@ -336,27 +340,27 @@ void AABStageGimmick::OnOpponentDestroyed(AActor* DestroyedActor)
 void AABStageGimmick::OnOpponentSpawn()
 {
 	//NPC 생성 위치.
-	const FVector SpawnLocation = GetActorLocation() + FVector::UpVector * 88.0f;
+	//const FVector SpawnLocation = GetActorLocation() + FVector::UpVector * 88.0f;
+	const FTransform SpawnTransform(GetActorLocation() + FVector::UpVector * 88.0f);
 
 	//NPC액터 생성
-	AActor* OpponentActor = GetWorld()->SpawnActor(
-		OpponentClass,
-		&SpawnLocation,
-		&FRotator::ZeroRotator
-	);
-
 	AABCharacterNonPlayer* ABOpponentCharacter 
-		= Cast<AABCharacterNonPlayer>(OpponentActor);
+		= GetWorld()->SpawnActorDeferred<AABCharacterNonPlayer>(
+		OpponentClass, SpawnTransform
+	);
 
 	if (ABOpponentCharacter)
 	{
 		//NPC가 죽었을 때 실행될 델리게이트에 함수 등록.
-		OpponentActor->OnDestroyed.AddDynamic(
+		ABOpponentCharacter->OnDestroyed.AddDynamic(
 			this, &AABStageGimmick::OnOpponentDestroyed
 		);
 
 		//현재 스테이지 레벨을 캐릭터 NPC의 레벨로 설정.
 		ABOpponentCharacter->SetLevel(CurrentStageNum);
+
+		//생성 완료 처리.
+		ABOpponentCharacter->FinishSpawning(SpawnTransform);
 	}
 
 }
@@ -406,13 +410,13 @@ void AABStageGimmick::SpawnRewardBoxes()
 			+ FVector(0.0f, 0.0f, 30.0f);
 
 		//아이템 상자 액터 생성
-		AActor* ItemActor = GetWorld()->SpawnActor(RewardBoxClass, &WorldSpawnLocation, &FRotator::ZeroRotator);
+		FTransform SpawnTransform(WorldSpawnLocation);
+		AABItemBox* RewardBoxActor 
+			= GetWorld()->SpawnActorDeferred<AABItemBox>(
+				RewardBoxClass, SpawnTransform);
 
 		//나중에 어떤 상자와 부딪혔는지 파악을 위해 태그 값 추가.
-		ItemActor->Tags.Add(RewardBoxLocation.Key);
-
-		//아이템 상자 타입으로 형변환.
-		AABItemBox* RewardBoxActor = Cast<AABItemBox>(ItemActor);
+		RewardBoxActor->Tags.Add(RewardBoxLocation.Key);
 
 		if (RewardBoxActor)
 		{
@@ -424,8 +428,17 @@ void AABStageGimmick::SpawnRewardBoxes()
 			//생성된 액터를 배열에 추가.
 			RewardBoxes.Add(RewardBoxActor);
 		}
+	}
 
-		
+	//생성 완료한 후에 FinishSpawning을 한 번에 처리
+	for (const auto& RewardBox : RewardBoxes)
+	{
+		if (RewardBox.IsValid())
+		{
+			RewardBox.Get()->FinishSpawning(
+				RewardBox.Get()->GetActorTransform()
+			);
+		}
 	}
 }
 
