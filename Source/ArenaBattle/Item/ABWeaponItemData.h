@@ -15,6 +15,11 @@ class ARENABATTLE_API UABWeaponItemData : public UABItemData
 	GENERATED_BODY()
 	
 public:
+	virtual FPrimaryAssetId GetPrimaryAssetId() const override
+	{
+		return FPrimaryAssetId("ABItemData", GetFName());
+	}
+
 	//무기 매시 설정 가능하도록
 	UPROPERTY(EditAnyWhere, Category = Weapon)
 	//TObjectPtr<class USkeletalMesh> WeaponMesh;

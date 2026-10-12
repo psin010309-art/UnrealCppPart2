@@ -19,6 +19,10 @@ public:
 	FORCEINLINE class UBoxComponent* GetTrigger() const { return Trigger; }
 
 protected:
+	//초기화를 위한 함수 오버라이드
+	virtual void PostInitializeComponents() override;
+
+protected:
 	//UFunction키워드 등록 필수
 	//Dynamic타입의 델리게이트에는 UFUNCTION이 필요함.
 	UFUNCTION()
@@ -51,4 +55,6 @@ protected:
 	//아이템 정보.
 	UPROPERTY(EditAnywhere, Category = Item)
 	TObjectPtr<class UABItemData> Item;
+
+	//
 };
