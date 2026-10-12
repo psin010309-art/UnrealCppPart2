@@ -210,7 +210,11 @@ void AABStageGimmick::OnGateTriggerBeginOverlap(
 	if (!Result)
 	{
 		//스테이지 액터 생성
-		GetWorld()->SpawnActor<AABStageGimmick>(NewLocation, FRotator::ZeroRotator);
+		AABStageGimmick* NewGimmick 
+			= GetWorld()->SpawnActor<AABStageGimmick>(NewLocation, FRotator::ZeroRotator);
+
+		//스테이지 레벨 설정.
+		NewGimmick->SetStageNum(CurrentStageNum + 1);
 	}
 
 	//스테이지 액터 생성
@@ -350,6 +354,9 @@ void AABStageGimmick::OnOpponentSpawn()
 		OpponentActor->OnDestroyed.AddDynamic(
 			this, &AABStageGimmick::OnOpponentDestroyed
 		);
+
+		//현재 스테이지 레벨을 캐릭터 NPC의 레벨로 설정.
+		ABOpponentCharacter->SetLevel(CurrentStageNum);
 	}
 
 }

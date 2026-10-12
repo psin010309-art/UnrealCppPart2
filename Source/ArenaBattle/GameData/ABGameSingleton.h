@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "UObject/Object.h"
-#include <GameData/ABCharacterStat.h>
+#include "ABCharacterStat.h"
 #include "ABGameSingleton.generated.h"
 
 //로드 카테고리 추가
@@ -27,7 +27,7 @@ public:
 	//레벨을 전달해서 스탯 데이터를 반환하는 함수
 	FORCEINLINE FABCharacterStat GetCharacterStat(int32 InLevel) const
 	{
-		//레벨을 사용해서 배열에 접근할 인덱스 계싼
+		//레벨을 사용해서 배열에 접근할 인덱스 계산
 		int32 StatIndex = InLevel - 1;
 
 		//인덱스가 유효한지 여부에 따른 데이터 반환

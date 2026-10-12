@@ -143,5 +143,8 @@ protected:
 	//아이템 수집처리에 사용할 델리게이트 배열.
 	TArray<FOnTakeItemDelegate> TakeItemActions;
 
-
+	//스탯
+public:
+	int32 GetLevel() const;
+	void SetLevel(int32 InNewLevel);
 };

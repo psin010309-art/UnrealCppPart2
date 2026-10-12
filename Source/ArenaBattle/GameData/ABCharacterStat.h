@@ -40,14 +40,14 @@ public:
 		//구조체에 포함된 float의 변수 개수
 		int32 StatNum = sizeof(FABCharacterStat) / sizeof(float);
 
-		//속성 데이터 개스
-		return Result;
-
 		//루프 순회를 통한 덧셈 처리
 		for (int32 ix = 0; ix < StatNum; ++ix)
 		{
 			ResultPtr[ix] = ThisPtr[ix] + OtherPtr[ix];
 		}
+
+		//속성 데이터 개수
+		return Result;
 	}
 
 public:
