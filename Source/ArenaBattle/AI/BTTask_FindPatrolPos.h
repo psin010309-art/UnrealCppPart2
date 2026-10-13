@@ -18,6 +18,7 @@ public:
 	UBTTask_FindPatrolPos();
 
 protected:
+	//태스크 실행을 할 때 호출
 	virtual EBTNodeResult::Type ExecuteTask(
 		UBehaviorTreeComponent& OwnerComp, 
 		uint8* NodeMemory) override;
