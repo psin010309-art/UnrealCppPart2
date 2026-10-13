@@ -25,7 +25,7 @@ public:
 	//NPC 캐릭터가 제공할 함수.
 	virtual float GetAIPatrolRadius() = 0;
 
-	virtual float GetAIDetectRadius() = 0;
+	virtual float GetAIDetectRange() = 0;
 	virtual float GetAIAttackRange() = 0;
 	virtual float GetAITurnSpeed() = 0;
 };

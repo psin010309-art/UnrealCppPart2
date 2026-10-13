@@ -39,7 +39,7 @@ protected:
 	//AI섹션
 protected:
 	virtual float GetAIPatrolRadius() override;
-	virtual float GetAIDetectRadius() override;
+	virtual float GetAIDetectRange() override;
 	virtual float GetAIAttackRange() override;
 	virtual float GetAITurnSpeed() override;
 };
