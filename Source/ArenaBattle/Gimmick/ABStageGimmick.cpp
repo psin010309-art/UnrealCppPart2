@@ -16,7 +16,7 @@ AABStageGimmick::AABStageGimmick()
 	//스테이지 관련 설정.
 	Stage = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Stage"));
 	RootComponent = Stage;
-
+	  
 	//스테이지 메시 애셋 로드 후 설정.
 	static ConstructorHelpers::FObjectFinder<UStaticMesh> StageMeshRef(
 		TEXT("/Game/ArenaBattle/Environment/Stages/SM_SQUARE.SM_SQUARE")
