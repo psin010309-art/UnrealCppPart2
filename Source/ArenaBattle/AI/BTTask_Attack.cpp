@@ -31,6 +31,19 @@ EBTNodeResult::Type UBTTask_Attack::ExecuteTask(
         return EBTNodeResult::Failed;
     }
 
+    //공격이 종료될 때 실행될 로직을 델리게이트로 전달.
+    FAICharacterAttackFinished OnAttackFinished;
+
+    //델리게이트에 로직 바인딩
+    OnAttackFinished.BindLambda([this, &OwnerComp]()
+        {
+            //공격이 종료되면 최종 태스크 종료.
+            FinishLatentTask(OwnerComp,EBTNodeResult::Succeeded);
+        }
+    );
+
+    AIPawn->SetAIAttackDelegate(OnAttackFinished);
+
     //공격 메시지 전달.
     AIPawn->AttackByAI();
 

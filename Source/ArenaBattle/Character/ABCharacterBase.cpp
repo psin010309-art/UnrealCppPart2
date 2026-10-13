@@ -339,6 +339,9 @@ void AABCharacterBase::ComboActionEnded(
 
 	//몽타주 재생이 종료되면 캐릭터 이동 복구.
 	GetCharacterMovement()->SetMovementMode(EMovementMode::MOVE_Walking);
+
+	//공격 끝나는 시점을 알 수 있도록 가상함수 호출.
+	NotifyComboActionEnd();
 }
 
 void AABCharacterBase::SetComboCheckTimer()
