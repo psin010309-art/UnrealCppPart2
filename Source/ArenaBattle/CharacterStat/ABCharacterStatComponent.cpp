@@ -14,6 +14,8 @@ UABCharacterStatComponent::UABCharacterStatComponent()
 	//시작 레벨
 	CurrentLevel = 1;
 
+	//공격 반경 기본 값 설정.
+	AttackRadius = 50.0f;
 }
 
 
