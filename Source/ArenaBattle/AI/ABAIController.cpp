@@ -2,6 +2,7 @@
 
 
 #include "AI/ABAIController.h"
+#include <AI/ABAI.h>
 
 #include <BehaviorTree/BlackboardData.h>
 #include <BehaviorTree/BehaviorTree.h>
@@ -37,6 +38,9 @@ void AABAIController::RunAI()
 	//사용할 블랙보드 지정
 	if (UseBlackboard(BBAsset, BlackboardPtr))
 	{
+		//NPC 폰이 생성된 위치를 블랙보드에 기록
+		Blackboard->SetValueAsVector(BBKEY_HOMEPOS, GetPawn()->GetActorLocation());
+
 		//행동트리 실행.
 		bool RunResult = RunBehaviorTree(BTAsset);
 

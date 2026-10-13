@@ -15,7 +15,10 @@ public class ArenaBattle : ModuleRules
 			"Engine", 
 			"InputCore", 
 			"EnhancedInput",
-			"UMG" 
+			"UMG",
+			"AIModule",
+			"NavigationSystem",
+			"GameplayTasks"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
