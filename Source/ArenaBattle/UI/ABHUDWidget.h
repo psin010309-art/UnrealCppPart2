@@ -28,7 +28,7 @@ public:
 	void UpdateHpBar(float NewCurrentHp);
 
 protected:
-	virtual void NativeOnInitialized();
+	virtual void NativeConstruct() override;
 
 protected:
 	//HpBar위젯
