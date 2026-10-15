@@ -7,6 +7,7 @@
 #include <Inteface/ABAnimationAttackInterface.h>
 #include <Inteface/ABCharacterWidgetInterface.h>
 #include <Inteface/ABCharacterItemInterface.h>
+#include <GameData/ABCharacterStat.h>
 #include "ABCharacterBase.generated.h"
 
 //로그 카테고리 추가.(이름, 일반로그, 모든 곳에 남겨라)
@@ -150,4 +151,10 @@ protected:
 public:
 	int32 GetLevel() const;
 	void SetLevel(int32 InNewLevel);
+
+	//스탯이 변경됐을 때 실행할 함수 - 델리게이트와 연동
+	virtual void ApplyStat(
+		const FABCharacterStat& InBaseStat, 
+		const FABCharacterStat& InModifierStat
+	);
 };
