@@ -63,6 +63,14 @@ void AABCharacterNonPlayer::SetDead()
 {
 	Super::SetDead();
 
+	//AI중지
+	AABAIController* AIController = Cast<AABAIController>(GetController());
+
+	if (nullptr != AIController)
+	{
+		AIController->StopAI();
+	}
+
 	//5초 후에 액터 제거
 	FTimerHandle DeadTimerHandle;
 	GetWorld()->GetTimerManager().SetTimer(

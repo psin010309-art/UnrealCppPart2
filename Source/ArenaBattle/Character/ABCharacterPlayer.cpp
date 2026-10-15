@@ -141,10 +141,30 @@ void AABCharacterPlayer::BeginPlay()
 	//초기 입력 컨트롤 설정.
 	SetCharacterControl(CurrentCharacterControlType);
 
-	//사용할 입력 매핑 컨텍스트 설정.
-	//플레이어 컨트롤러 가져오기.
-	
+	//입력 켜기 위한 플레이어 컨트롤러 가져오기
+	APlayerController* PlayerController = Cast<APlayerController>(GetController());
 
+	if (nullptr != PlayerController)
+	{
+		//입력 끄기
+		EnableInput(PlayerController);
+	}
+	//초기 컨트롤 설정
+	SetCharacterControl(ECharacterControlType::Shoulder);
+}
+
+void AABCharacterPlayer::SetDead()
+{
+	Super::SetDead();
+
+	//입력 끄기 위한 플레이어 컨트롤러 가져오기
+	APlayerController* PlayerController = Cast<APlayerController>(GetController());
+
+	if (nullptr != PlayerController)
+	{
+		//입력 끄기
+		DisableInput(PlayerController);
+	}
 }
 
 void AABCharacterPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
