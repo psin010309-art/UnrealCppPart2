@@ -7,7 +7,7 @@
 #include "ABGameInterface.generated.h"
 
 // This class does not need to be modified.
-UINTERFACE(MinimalAPI)
+UINTERFACE(MinimalAPI, BlueprintType, NotBlueprintable)
 class UABGameInterface : public UInterface
 {
 	GENERATED_BODY()
@@ -25,5 +25,11 @@ public:
 	//게임모드가 제공해야되는 함수 선언
 	virtual void OnPlayerScoreChanged(int32 NewPlayerScore) = 0;
 	virtual void OnPlayerDead() = 0;
+
+	//블루프린트에서 호출 가능하도록
+	UFUNCTION(BlueprintCallable)
 	virtual bool IsGameCleared() = 0;
+
+	UFUNCTION(BlueprintCallable)
+	virtual int32 GetClearScore() = 0;
 };

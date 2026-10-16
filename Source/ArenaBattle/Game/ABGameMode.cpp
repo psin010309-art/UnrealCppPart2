@@ -64,3 +64,8 @@ bool AABGameMode::IsGameCleared()
 {
 	return bIsCleared;
 }
+
+int32 AABGameMode::GetClearScore()
+{
+	return ClearScore;
+}

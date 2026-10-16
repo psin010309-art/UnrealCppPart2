@@ -23,6 +23,7 @@ protected:
 	virtual void OnPlayerScoreChanged(int32 NewPlayerScore) override;
 	virtual void OnPlayerDead() override;
 	virtual bool IsGameCleared() override;
+	virtual int32 GetClearScore() override;
 
 	//게임 클리어하기 위한 조건(점수)
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = Game)
