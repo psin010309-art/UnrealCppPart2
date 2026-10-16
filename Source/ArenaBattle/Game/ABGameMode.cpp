@@ -9,8 +9,58 @@
 AABGameMode::AABGameMode()
 {
 	//게임에서 사용할 클래스 타입 선언
-
 	DefaultPawnClass = AABCharacterPlayer::StaticClass();
 	PlayerControllerClass = AABPlayerController::StaticClass();
 
+	//기본 값 설정
+	ClearScore = 3;
+	CurrentScore = 0;
+	bIsCleared = false;
+}
+
+void AABGameMode::OnPlayerScoreChanged(int32 NewPlayerScore)
+{
+	//현재 점수를 전달받은 값으로 업데이트.
+	CurrentScore = NewPlayerScore;
+
+	//플레이어 컨트롤러에게 플레이어 점수가 업데이트 된 것을 알리기
+	//기본적으로 플레이어 컨트롤러는 "플레이어"의 수 만큼 생성
+	//하지만 싱글 플레이어 게임의 경우 "플레이어(게이머)"가 1개임.
+	AABPlayerController* ABPlayerController
+		= Cast<AABPlayerController>(GetWorld()->GetFirstPlayerController());
+
+	if (nullptr != ABPlayerController)
+	{
+		//게임 점수가 변경된 사실을 알리기.
+		ABPlayerController->GameScoreChanged(CurrentScore);
+	}
+
+	//게임 클리어 여부 확인
+	if (CurrentScore >= ClearScore)
+	{
+		bIsCleared = true;
+
+		if (nullptr != ABPlayerController)
+		{
+			ABPlayerController->GameClear();
+		}
+	}
+}
+
+void AABGameMode::OnPlayerDead()
+{
+	//UI로 죽었음을 알리는데 플레이어 컨트롤러가 UI담당임.
+	AABPlayerController* ABPlayerController
+		= Cast<AABPlayerController>(GetWorld()->GetFirstPlayerController());
+
+	if (nullptr != ABPlayerController)
+	{
+		//플레이어가 죽으면 오버처리
+		ABPlayerController->GameOver();
+	}
+}
+
+bool AABGameMode::IsGameCleared()
+{
+	return bIsCleared;
 }

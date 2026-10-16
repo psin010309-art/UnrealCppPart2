@@ -5,9 +5,11 @@
 #include "ABCharacterControlData.h"
 #include <UI/ABHUDWidget.h>
 #include <CharacterStat/ABCharacterStatComponent.h>
+#include <Inteface/ABGameInterface.h>
 
 #include <GameFramework/SpringArmComponent.h>
 #include <GameFramework//CharacterMovementComponent.h>
+#include <GameFramework/GameModeBase.h>
 #include <Camera/CameraComponent.h>
 
 #include <InputMappingContext.h>
@@ -164,6 +166,15 @@ void AABCharacterPlayer::SetDead()
 	{
 		//입력 끄기
 		DisableInput(PlayerController);
+	}
+
+	//캐릭터가 죽었다는 걸 게임 모드에 알리기.
+	IABGameInterface* ABGameMode 
+		= Cast<IABGameInterface>(GetWorld()->GetAuthGameMode());
+
+	if (nullptr != ABGameMode)
+	{
+		ABGameMode->OnPlayerDead();
 	}
 }
 
